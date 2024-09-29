@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Project Details - Civilytix Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- TomTom Maps CSS -->
+  <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps.css">
+  
+  <style>
+    body { background-color: #f0f4f9; font-family: Arial, sans-serif; }
+    .sidebar { background-color: #004d66; min-height: 100vh; color: white; padding-top: 20px; }
+    .sidebar a { color: #fff; padding: 15px; text-decoration: none; display: block; }
+    .sidebar a:hover { background-color: #00394d; }
+    .topbar { background-color: #007acc; padding: 15px; color: white; text-align: center; }
+    #map { width: 70%; height: 650px; float: left; }
+    aside { width: 30%; float: right; }
+    .highlight { background-color: yellow; padding: 10px; margin-top: 20px; font-size: 1.2em; }
+    .list-group { margin-top: 20px; }
+    .modal-content { background-color: #f0f4f9; }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 sidebar">
+        <h4 class="text-center">Civilytix</h4>
+        <a href="#">Home</a>
+        <a href="#">Projects</a>
+        <a href="#">Bids</a>
+        <a href="#">Finances</a>
+        <a href="#">Audit Results</a>
+        <a href="#">Scheduling</a>
+        <a href="#">Training</a>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="col-md-10">
+        <div class="topbar">
+          <input type="text" placeholder="Search..." id="search-input">
+          <button onclick="searchLocation()">Search</button>
+        </div>
+        <div id="map"></div>
+        <aside>
+          <!-- Placeholder for marker inputs and actions -->
+        </aside>
+
+        <!-- Project Details -->
+        <div class="highlight">Predicted Price Range: ₹1,20,00,000 - ₹1,50,00,000</div>
+        <button class="btn btn-primary" onclick="showDetails()">See Detailed View</button>
+
+        <!-- Details about the project -->
+        <ul>
+          <li>Status of Assets: Active/Inactive</li>
+          <li>Land Procured: 50 Acres</li>
+          <li>Material Used: 5000 tons of steel</li>
+          <li>CO2 Emissions: 2000 kg</li>
+        </ul>
+
+        <!-- Bid Management Section -->
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="exportData()">Export from Spreadsheet</button>
+          <button class="btn btn-secondary" onclick="writeCustomData()">Write Custom Data</button>
+          <button class="btn btn-secondary" onclick="addCriteria()">Add New Criteria</button>
+        </div>
+
+        <!-- Bids List -->
+        <div class="list-group">
+          <h4>Bid Rankings</h4>
+          <ul class="list-group">
+            <li class="list-group-item">Company A - ₹1,00,00,000</li>
+            <li class="list-group-item">Company B - ₹1,05,00,000</li>
+            <!-- More bids -->
+          </ul>
+          <button class="btn btn-info" onclick="checkAnomalies()">Check for Anomalies</button>
+        </div>
+
+        <!-- Anomalies Detection -->
+        <div id="anomaliesSection" class="list-group" style="display:none;">
+          <h4>Anomalies Detected</h4>
+          <ul class="list-group">
+            <!-- Placeholder for anomalies list -->
+            <li class="list-group-item">Anomaly 1 - Company C</li>
+          </ul>
+        </div>
+
+        <!-- Modal for Detailed Calculations -->
+        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Detailed Calculations</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Model algorithm: Backpropagation</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- TomTom Maps JS -->
+  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps-web.min.js"></script>
+  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/services/services-web.min.js"></script>
+  <script>
+    var APIKEY = "pXQeBnDaX0L9POuXZAoMAGF0Vyd2sCby";
+    var map = tt.map({
+      key: APIKEY,
+      container: "map",
+      center: [87.3105, 22.3149],
+      zoom: 14
+    });
+    var markers = [];
+
+    map.on('click', function(event) {
+      var lngLat = event.lngLat;
+      var marker = new tt.Marker().setLngLat(lngLat).addTo(map);
+      markers.push(marker);
+      map.flyTo({ center: lngLat, zoom: 14 });
+    });
+
+    function searchLocation() {
+      var query = document.getElementById("search-input").value;
+      tt.services.fuzzySearch({
+        key: APIKEY,
+        query: query
+      }).then(function(results) {
+        if (results.results.length > 0) {
+          var result = results.results[0];
+          map.flyTo({
+            center: result.position,
+            zoom: 14
+          });
+        } else {
+          alert("Location not found.");
+        }
+      }).catch(function(error) {
+        console.error("Search failed:", error);
+      });
+    }
+
+    function showDetails() {
+      $('#detailsModal').modal('show');
+    }
+
+    function exportData() {
+      console.log("Export data from spreadsheet.");
+    }
+
+    function writeCustomData() {
+      console.log("Write custom data into system.");
+    }
+
+    function addCriteria() {
+      console.log("Add new criteria for bid evaluation.");
+    }
+
+    function checkAnomalies() {
+      console.log("Checking for anomalies in bid data.");
+      $('#anomaliesSection').show();
+    }
+  </script>
+</body>
+</html>
