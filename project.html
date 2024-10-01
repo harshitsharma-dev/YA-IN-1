@@ -8,18 +8,144 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- TomTom Maps CSS -->
   <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps.css">
-  
   <style>
-    body { background-color: #f0f4f9; font-family: Arial, sans-serif; }
-    .sidebar { background-color: #004d66; min-height: 100vh; color: white; padding-top: 20px; }
-    .sidebar a { color: #fff; padding: 15px; text-decoration: none; display: block; }
-    .sidebar a:hover { background-color: #00394d; }
-    .topbar { background-color: #007acc; padding: 15px; color: white; text-align: center; }
-    #map { width: 70%; height: 650px; float: left; }
-    aside { width: 30%; float: right; }
-    .highlight { background-color: yellow; padding: 10px; margin-top: 20px; font-size: 1.2em; }
-    .list-group { margin-top: 20px; }
-    .modal-content { background-color: #f0f4f9; }
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+      background-color: #00394d;
+      color: white;
+      padding-top: 20px;
+      min-height: 100vh;
+      box-shadow: 3px 0px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar a {
+      color: #fff;
+      padding: 15px;
+      text-decoration: none;
+      display: block;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #002a3a;
+    }
+
+    .topbar {
+      background-color: #007acc;
+      padding: 15px;
+      color: white;
+      text-align: center;
+      border-bottom: 3px solid #004d66;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .topbar input {
+      width: 80%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    .topbar button {
+      background-color: #004d66;
+      border: none;
+      padding: 8px 16px;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .topbar button:hover {
+      background-color: #00394d;
+    }
+
+    #map {
+      height: 500px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .highlight {
+      background-color: yellow;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 1.2em;
+      border-radius: 5px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-item {
+      margin-top: 15px;
+    }
+
+    .container-fluid {
+      padding: 0;
+    }
+
+    .main-content {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .chatbot-container {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 250px;
+      height: 100vh;
+      background-color: #007acc;
+      color: white;
+      padding: 20px;
+      box-shadow: -3px 0px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border-radius: 0;
+      z-index: 2;
+    }
+
+    .chatbot-container h4 {
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .chatbot-container button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: none;
+      background-color: #004d66;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .chatbot-container button:hover {
+      background-color: #00394d;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      background-color: #004d66;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      z-index: 1;
+    }
   </style>
 </head>
 <body>
@@ -28,84 +154,131 @@
       <!-- Sidebar -->
       <nav class="col-md-2 sidebar">
         <h4 class="text-center">Civilytix</h4>
-        <a href="#">Home</a>
-        <a href="#">Projects</a>
-        <a href="#">Bids</a>
-        <a href="#">Finances</a>
-        <a href="#">Audit Results</a>
-        <a href="#">Scheduling</a>
+        <a href="index.html">Home</a>
+        <a href="project.html">Projects</a>
+        <a href="bids.html">Bids</a>
+        <a href="Finances.html">Finances</a>
+        <a href="Audit.html">Audit Results</a>
         <a href="#">Training</a>
       </nav>
 
       <!-- Main Content -->
-      <main class="col-md-10">
+      <main class="col-md-8 main-content">
         <div class="topbar">
           <input type="text" placeholder="Search..." id="search-input">
           <button onclick="searchLocation()">Search</button>
         </div>
+
+        <!-- TomTom Map -->
         <div id="map"></div>
-        <aside>
-          <!-- Placeholder for marker inputs and actions -->
-        </aside>
 
-        <!-- Project Details -->
-        <div class="highlight">Predicted Price Range: ₹1,20,00,000 - ₹1,50,00,000</div>
-        <button class="btn btn-primary" onclick="showDetails()">See Detailed View</button>
-
-        <!-- Details about the project -->
-        <ul>
-          <li>Status of Assets: Active/Inactive</li>
-          <li>Land Procured: 50 Acres</li>
-          <li>Material Used: 5000 tons of steel</li>
-          <li>CO2 Emissions: 2000 kg</li>
-        </ul>
-
-        <!-- Bid Management Section -->
-        <div class="button-group">
-          <button class="btn btn-secondary" onclick="exportData()">Export from Spreadsheet</button>
-          <button class="btn btn-secondary" onclick="writeCustomData()">Write Custom Data</button>
-          <button class="btn btn-secondary" onclick="addCriteria()">Add New Criteria</button>
-        </div>
-
-        <!-- Bids List -->
-        <div class="list-group">
-          <h4>Bid Rankings</h4>
-          <ul class="list-group">
-            <li class="list-group-item">Company A - ₹1,00,00,000</li>
-            <li class="list-group-item">Company B - ₹1,05,00,000</li>
-            <!-- More bids -->
-          </ul>
-          <button class="btn btn-info" onclick="checkAnomalies()">Check for Anomalies</button>
-        </div>
-
-        <!-- Anomalies Detection -->
-        <div id="anomaliesSection" class="list-group" style="display:none;">
-          <h4>Anomalies Detected</h4>
-          <ul class="list-group">
-            <!-- Placeholder for anomalies list -->
-            <li class="list-group-item">Anomaly 1 - Company C</li>
-          </ul>
-        </div>
-
-        <!-- Modal for Detailed Calculations -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="detailsModalLabel">Detailed Calculations</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <p>Model algorithm: Backpropagation</p>
-              </div>
-            </div>
+        <!-- Add Marker Inputs Below the Map -->
+        <div class="row">
+          <div class="col-md-4">
+            <input type="text" id="lat" class="form-control mb-2" placeholder="Latitude">
           </div>
+          <div class="col-md-4">
+            <input type="text" id="lon" class="form-control mb-2" placeholder="Longitude">
+          </div>
+          <div class="col-md-4">
+            <button onclick="addMarker()" class="btn btn-primary btn-block mb-2">Add Marker</button>
+          </div>
+          <div class="col-md-6">
+            <button onclick="createRoute()" class="btn btn-success btn-block">Create Route</button>
+          </div>
+          <div class="col-md-6">
+            <button onclick="clearMarkers()" class="btn btn-secondary btn-block">Clear Markers</button>
+          </div>
+        </div>
+
+        <!-- Project Input Tree Structure -->
+        <div class="detail-item">
+          <label for="projectCategory">Project Category:</label>
+          <select id="projectCategory" class="form-control" onchange="updateProjectType()">
+            <option value="">-- Select Category --</option>
+            <option value="Infrastructure">Infrastructure</option>
+            <option value="Road Construction">Road Construction</option>
+            <option value="Public Utilities">Public Utilities</option>
+          </select>
+        </div>
+
+        <!-- Project Type -->
+        <div id="projectType" class="detail-item hidden">
+          <label for="projectTypeSelect">Project Type:</label>
+          <select id="projectTypeSelect" class="form-control" onchange="updateMaterialType()">
+            <option value="">-- Select Project Type --</option>
+          </select>
+        </div>
+
+        <!-- Material Type -->
+        <div id="materialType" class="detail-item hidden">
+          <label for="materialSelect">Material Type:</label>
+          <select id="materialSelect" class="form-control" onchange="updateOperationalParameters()">
+            <option value="">-- Select Material --</option>
+            <option value="Steel">Steel</option>
+            <option value="Concrete">Concrete</option>
+            <option value="GRP">GRP (Glass Reinforced Plastic)</option>
+          </select>
+        </div>
+
+        <!-- Operational Parameters -->
+        <div id="operationalParams" class="hidden">
+          <!-- CO2 Emissions -->
+          <div class="detail-item">
+            <label for="co2Emissions">CO2 Emissions (kg):</label>
+            <select id="co2Emissions" class="form-control" onchange="calculateOutputs()">
+              <option value="">-- Select CO2 Emissions --</option>
+              <option value="1000 kg">1000 kg</option>
+              <option value="2000 kg">2000 kg</option>
+              <option value="3000 kg">3000 kg</option>
+            </select>
+          </div>
+
+          <!-- Soil Type -->
+          <div class="detail-item">
+            <label for="soilType">Soil Type:</label>
+            <select id="soilType" class="form-control" onchange="calculateOutputs()">
+              <option value="">-- Select Soil Type --</option>
+              <option value="Soft Soil">Soft Soil</option>
+              <option value="Moderate Soil">Moderate Soil</option>
+              <option value="Hard Soil">Hard Soil</option>
+            </select>
+          </div>
+
+          <!-- Project Scale -->
+          <div class="detail-item">
+            <label for="projectScale">Project Scale:</label>
+            <select id="projectScale" class="form-control" onchange="calculateOutputs()">
+              <option value="">-- Select Scale --</option>
+              <option value="Very Small">Very Small</option>
+              <option value="Small">Small</option>
+              <option value="Medium">Medium</option>
+              <option value="Large">Large</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div class="highlight" id="outputMaterialCost">Calculative Material Cost: ₹0</div>
+        <div class="highlight" id="outputPredictedPrice">Predicted Price Range: ₹0 - ₹0</div>
+        
+        <!-- Calculate Bids Button -->
+        <div class="text-center mt-4">
+          <button class="btn btn-primary" onclick="calculateBids()">Calculate Bids</button>
         </div>
       </main>
     </div>
   </div>
+
+  <!-- Chatbot Panel on the Right -->
+  <div class="chatbot-container">
+    <h4>Chatbot</h4>
+    <button class="btn btn-primary">Open Chat</button>
+    <button class="btn btn-secondary">Help</button>
+  </div>
+
+  <!-- Placeholder for footer -->
+  <div id="footer-placeholder"></div>
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -113,8 +286,16 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <!-- TomTom Maps JS -->
   <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps-web.min.js"></script>
+  <!-- TomTom Services JS -->
   <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/services/services-web.min.js"></script>
+
+  <!-- Footer loading script -->
   <script>
+    $(document).ready(function() {
+      $("#footer-placeholder").load("footer.html");
+    });
+
+    // Map and functions
     var APIKEY = "pXQeBnDaX0L9POuXZAoMAGF0Vyd2sCby";
     var map = tt.map({
       key: APIKEY,
@@ -151,25 +332,120 @@
       });
     }
 
-    function showDetails() {
-      $('#detailsModal').modal('show');
+    function addMarker() {
+      var lat = parseFloat(document.getElementById("lat").value);
+      var lon = parseFloat(document.getElementById("lon").value);
+
+      if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+        alert('Please enter valid latitude and longitude values.');
+        return;
+      }
+
+      var marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
+      markers.push(marker);
+      map.flyTo({ center: [lon, lat], zoom: 14 });
     }
 
-    function exportData() {
-      console.log("Export data from spreadsheet.");
+    function clearMarkers() {
+      markers.forEach(marker => marker.remove());
+      markers = [];
+      if (map.getLayer('route')) {
+        map.removeLayer('route');
+        map.removeSource('route');
+      }
     }
 
-    function writeCustomData() {
-      console.log("Write custom data into system.");
+    function createRoute() {
+      var locations = markers.map(marker => marker.getLngLat());
+      if (locations.length > 1) {
+        tt.services.calculateRoute({
+          key: APIKEY,
+          locations: locations.map(ll => `${ll.lng},${ll.lat}`),
+          travelMode: 'car'
+        }).then(function(response) {
+          var geoJSON = response.toGeoJson();
+          if (map.getLayer('route')) {
+            map.removeLayer('route');
+            map.removeSource('route');
+          }
+          map.addLayer({
+            id: 'route',
+            type: 'line',
+            source: {
+              type: 'geojson',
+              data: geoJSON
+            },
+            paint: {
+              'line-color': 'blue',
+              'line-width': 5
+            }
+          });
+        }).catch(function(error) {
+          console.error("Route creation failed:", error);
+        });
+      } else {
+        alert("Add more markers to create a route.");
+      }
     }
 
-    function addCriteria() {
-      console.log("Add new criteria for bid evaluation.");
+    function updateProjectType() {
+      let projectCategory = document.getElementById("projectCategory").value;
+      let projectTypeSelect = document.getElementById("projectTypeSelect");
+      projectTypeSelect.innerHTML = '<option value="">-- Select Project Type --</option>';
+
+      if (projectCategory === "Infrastructure") {
+        projectTypeSelect.innerHTML += '<option value="Pipeline">Pipeline</option><option value="Pumphouse">Pumphouse</option><option value="Dam">Dam</option>';
+      } else if (projectCategory === "Road Construction") {
+        projectTypeSelect.innerHTML += '<option value="New Road Construction">New Road Construction</option><option value="Road Repair">Road Repair</option>';
+      } else if (projectCategory === "Public Utilities") {
+        projectTypeSelect.innerHTML += '<option value="Water Treatment Works">Water Treatment Works</option><option value="Sewerage Systems">Sewerage Systems</option>';
+      }
+
+      document.getElementById("projectType").classList.remove("hidden");
+      document.getElementById("materialType").classList.add("hidden");
+      document.getElementById("operationalParams").classList.add("hidden");
+      calculateOutputs();
     }
 
-    function checkAnomalies() {
-      console.log("Checking for anomalies in bid data.");
-      $('#anomaliesSection').show();
+    function updateMaterialType() {
+      document.getElementById("materialType").classList.remove("hidden");
+      calculateOutputs();
+    }
+
+    function updateOperationalParameters() {
+      document.getElementById("operationalParams").classList.remove("hidden");
+      calculateOutputs();
+    }
+
+    function calculateOutputs() {
+      var projectType = document.getElementById("projectTypeSelect").value;
+      var materialType = document.getElementById("materialSelect").value;
+      var co2Emissions = document.getElementById("co2Emissions").value;
+      var soilType = document.getElementById("soilType").value;
+      var projectScale = document.getElementById("projectScale").value;
+
+      var materialCost = 0;
+      var baseCost = 1000000; // Example base cost, can be adjusted
+      var co2Multiplier = co2Emissions === "1000 kg" ? 1.1 : co2Emissions === "2000 kg" ? 1.2 : 1.3;
+      var soilMultiplier = soilType === "Soft Soil" ? 1 : soilType === "Moderate Soil" ? 1.2 : 1.5;
+      var scaleMultiplier = projectScale === "Very Small" ? 0.8 : projectScale === "Small" ? 1 : projectScale === "Medium" ? 1.3 : 1.5;
+
+      if (materialType === "Steel") {
+        materialCost = 500000;
+      } else if (materialType === "Concrete") {
+        materialCost = 300000;
+      } else if (materialType === "GRP") {
+        materialCost = 200000;
+      }
+
+      var totalCost = baseCost * co2Multiplier * soilMultiplier * scaleMultiplier + materialCost;
+
+      document.getElementById("outputMaterialCost").innerText = "Calculative Material Cost: ₹" + materialCost.toLocaleString();
+      document.getElementById("outputPredictedPrice").innerText = "Predicted Price: ₹" + totalCost.toLocaleString();
+    }
+
+    function calculateBids() {
+      alert("Bids Calculated");
     }
   </script>
 </body>

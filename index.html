@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>Civilytix Dashboard with TomTom Map</title>
+  <title>Civilytix Guided Tour</title>
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <!-- TomTom Maps CSS -->
-  <link rel="stylesheet" type="text/css" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps.css">
+  <!-- Intro.js CSS -->
+  <link href="https://unpkg.com/intro.js/minified/introjs.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #f0f4f9;
@@ -18,33 +18,70 @@
       min-height: 100vh;
       color: white;
       padding-top: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
     .sidebar a {
       color: #fff;
       padding: 15px;
       text-decoration: none;
       display: block;
+      transition: background-color 0.3s ease;
     }
     .sidebar a:hover {
       background-color: #00394d;
     }
-    /* Topbar */
-    .topbar {
-      background-color: #007acc;
-      padding: 15px;
+    .main-content {
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 20px 0;
+    }
+    h1, h2, p {
+      color: #004d66;
+    }
+    .highlight {
+      background-color: #e9ecef;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 5px solid #007acc;
+    }
+    .highlight h2 {
+      margin-bottom: 10px;
+    }
+    .highlight ul {
+      margin-top: 15px;
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+    .highlight ul li {
+      margin-bottom: 10px;
+    }
+    footer {
+      background-color: #004d66;
       color: white;
+      padding: 30px;
       text-align: center;
+      z-index: 999;
     }
-    .topbar input[type="text"] {
-      width: 100%;
-      padding: 5px;
+    footer p {
+      margin: 0;
+      font-size: 14px;
+    }
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+    .btn-primary {
+      background-color: #007acc;
       border: none;
+      padding: 10px 20px;
+      font-size: 16px;
       border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
-    /* Map container */
-    #map {
-      width: 100%;
-      height: 650px; /* Adjusted height for better visibility */
+    .btn-primary:hover {
+      background-color: #005f99;
     }
   </style>
 </head>
@@ -54,144 +91,79 @@
       <!-- Sidebar -->
       <nav class="col-md-2 sidebar">
         <h4 class="text-center">Civilytix</h4>
-        <a href="#">Home</a>
-        <a href="#">Projects</a>
-        <a href="#">Bids</a>
-        <a href="#">Finances</a>
-        <a href="#">Audit Results</a>
-        <a href="#">Scheduling</a>
-        <a href="#">Training</a>
+        <a href="index.html" data-intro="This is the home page, where you can get an overview of Civilytix." data-step="1">Home</a>
+        <a href="project.html" data-intro="In Projects, you can manage and predict project costs based on materials and more." data-step="2">Projects</a>
+        <a href="bids.html" data-intro="The Bids section allows you to manage and rank bids using MCDM." data-step="3">Bids</a>
+        <a href="finances.html" data-intro="Track all financial transactions related to your projects here." data-step="4">Finances</a>
+        <a href="audit.html" data-intro="In the Audit Results section, view audit reports and schedule maintenance." data-step="5">Audit Results</a>
+        <a href="#" data-intro="Visit this section to access training and resources for Civilytix." data-step="6">Training</a>
       </nav>
 
       <!-- Main Content -->
-      <main class="col-md-8">
-        <!-- Search bar in Topbar -->
-        <div class="topbar">
-          <input type="text" placeholder="Search..." id="search-input">
-          <button onclick="searchLocation()">Search</button>
-        </div>
+      <main class="col-md-9 main-content">
+        <h1>Welcome to Civilytix</h1>
+        <p>
+          Civilytix is a comprehensive platform for managing civil infrastructure projects. To start a tour of the dashboard and its features, click the button below.
+        </p>
+        <button class="btn btn-primary" onclick="startTour()">Start Tour</button>
 
-        <!-- TomTom Map -->
-        <div id="map"></div>
+        <!-- Why Civilytix Matters Section -->
+        <div class="highlight">
+          <h2>Why Civilytix Matters</h2>
+          <p>
+            Civilytix ensures transparency, accountability, and optimization in infrastructure projects. Historical mismanagement of projects has led to cost overruns, delays, and even disasters. Civilytix provides solutions to prevent these issues by leveraging cutting-edge technology.
+          </p>
+          <h3>Preventing Project Failures</h3>
+          <p>
+            Many projects face delays and cost overruns due to improper management. For example, the <strong>Big Dig</strong> in Boston was originally estimated at $2.8 billion but ended up costing over $14 billion due to poor planning and management.
+          </p>
+
+          <h3>Reducing Financial Waste</h3>
+          <p>
+            According to the World Bank, nearly <strong>30% of global infrastructure project costs</strong> are wasted due to corruption and inefficiencies. Corruption scandals, such as the Petrobras scandal in Brazil, demonstrate the importance of monitoring bids and finances properly.
+          </p>
+
+          <h3>Enhancing Transparency and Accountability</h3>
+          <p>
+            Lack of audits and maintenance leads to infrastructure failures. For example, the <strong>Genoa Bridge Collapse</strong> in 2018 resulted in the loss of 43 lives, largely due to insufficient audits and maintenance.
+          </p>
+
+          <h3>Improving Tender Selection</h3>
+          <p>
+            Selecting the wrong contractor through improper tendering processes can lead to disastrous outcomes. The <strong>Berlin Brandenburg Airport</strong> was delayed for almost a decade and exceeded its budget by billions due to mismanagement and wrong contractor selection.
+          </p>
+
+          <h3>Key Features of Civilytix</h3>
+          <ul>
+            <li><strong>Project Prediction:</strong> Predict project costs based on materials, labor, and other factors.</li>
+            <li><strong>Bids Ranking:</strong> Rank bids using MCDM methods and detect anomalies.</li>
+            <li><strong>Financial Monitoring:</strong> Track financial transactions and ensure funds are properly utilized.</li>
+            <li><strong>Audit Scheduling:</strong> Schedule audits and download reports to ensure project quality and compliance.</li>
+          </ul>
+        </div>
       </main>
-
-      <!-- Right Panel -->
-      <aside class="col-md-2">
-        <!-- Add Marker Inputs -->
-        <div class="mt-3">
-          <input type="text" id="lat" class="form-control mb-2" placeholder="Latitude">
-          <input type="text" id="lon" class="form-control mb-2" placeholder="Longitude">
-          <button onclick="addMarker()" class="btn btn-primary btn-block">Add Marker</button>
-          <button onclick="createRoute()" class="btn btn-success btn-block">Create Route</button>
-          <button onclick="clearMarkers()" class="btn btn-secondary btn-block">Clear Markers</button>
-        </div>
-      </aside>
     </div>
   </div>
 
-  <!-- Bootstrap JS and dependencies -->
+  <!-- Placeholder for footer -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <!-- TomTom Maps JS -->
-  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/maps/maps-web.min.js"></script>
-  <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.14.0/services/services-web.min.js"></script>
+  <!-- Intro.js JS -->
+  <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
+
+  <!-- Footer loading script -->
   <script>
-    var APIKEY = "pXQeBnDaX0L9POuXZAoMAGF0Vyd2sCby";
-    var map = tt.map({
-      key: APIKEY,
-      container: "map",
-      center: [87.3105, 22.3149],
-      zoom: 14
+    $(document).ready(function() {
+      $("#footer-placeholder").load("footer.html");
     });
-    var markers = [];
-  
-    // Function to add a marker where the user clicks on the map
-    map.on('click', function(event) {
-      var lngLat = event.lngLat;
-      var marker = new tt.Marker().setLngLat(lngLat).addTo(map);
-      markers.push(marker);
-      map.flyTo({ center: lngLat, zoom: 14 }); // Fly to the clicked marker location
-    });
-  
-    function searchLocation() {
-      var query = document.getElementById("search-input").value;
-      tt.services.fuzzySearch({
-        key: APIKEY,
-        query: query
-      }).then(function(results) {
-        if (results.results.length > 0) {
-          var result = results.results[0];
-          map.flyTo({
-            center: result.position,
-            zoom: 14
-          });
-        } else {
-          alert("Location not found.");
-        }
-      }).catch(function(error) {
-        console.error("Search failed:", error);
-      });
-    }
-  
-    function addMarker() {
-      var lat = parseFloat(document.getElementById("lat").value);
-      var lon = parseFloat(document.getElementById("lon").value);
-  
-      // Validate that latitude and longitude are within acceptable ranges
-      if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-        alert('Please enter valid latitude and longitude values.');
-        return;
-      }
-  
-      // Add marker to the map
-      var marker = new tt.Marker().setLngLat([lon, lat]).addTo(map);
-      markers.push(marker);
-      map.flyTo({ center: [lon, lat], zoom: 14 }); // Fly to the new marker location
-    }
-  
-    function clearMarkers() {
-      markers.forEach(marker => marker.remove());
-      markers = [];
-      if (map.getLayer('route')) {
-        map.removeLayer('route');
-        map.removeSource('route');
-      }
-    }
-  
-    function createRoute() {
-      var locations = markers.map(marker => marker.getLngLat());
-      if (locations.length > 1) {
-        tt.services.calculateRoute({
-          key: APIKEY,
-          locations: locations,
-          travelMode: 'car'
-        }).then(function(route) {
-          var geoJSON = route.toGeoJson();
-          if (map.getLayer('route')) {
-            map.removeLayer('route');
-            map.removeSource('route');
-          }
-          map.addLayer({
-            id: 'route',
-            type: 'line',
-            source: {
-              type: 'geojson',
-              data: geoJSON
-            },
-            paint: {
-              'line-color': 'blue',
-              'line-width': 5
-            }
-          });
-        }).catch(function(error) {
-          console.error("Route creation failed:", error);
-        });
-      } else {
-        alert("Add more markers to create a route.");
-      }
+
+    function startTour() {
+      introJs().start();
     }
   </script>
-  
 </body>
 </html>

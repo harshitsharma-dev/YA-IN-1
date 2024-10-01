@@ -61,12 +61,11 @@
       <!-- Sidebar -->
       <nav class="col-md-2 sidebar">
         <h4 class="text-center">Civilytix</h4>
-        <a href="#">Home</a>
-        <a href="#">Projects</a>
-        <a href="#">Bids</a>
-        <a href="#">Finances</a>
-        <a href="#">Audit Results</a>
-        <a href="#">Scheduling</a>
+        <a href="index.html">Home</a>
+        <a href="project.html">Projects</a>
+        <a href="bids.html">Bids</a>
+        <a href="Finances.html">Finances</a>
+        <a href="Audit.html">Audit Results</a>
         <a href="#">Training</a>
       </nav>
 
@@ -138,13 +137,16 @@
       </aside>
     </div>
   </div>
-
+  <div id="footer-placeholder"></div>
   <!-- Bootstrap JS and dependencies -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script>
+    $(document).ready(function() {
+      $("#footer-placeholder").load("footer.html");
+    });
     $(document).ready(function() {
       // Enable/Disable maintenance scheduled date based on checkbox
       $(document).on('change', '.maintenance-needed', function() {
