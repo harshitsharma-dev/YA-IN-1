@@ -62,7 +62,7 @@ def bids():
 
 @app.route('/Finances')
 def finances():
-    return render_template('finances.html')
+    return render_template('Finances.html')
 
 @app.route('/audit')
 def audit():
