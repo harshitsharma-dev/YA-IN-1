@@ -66,7 +66,7 @@ def finances():
 
 @app.route('/audit')
 def audit():
-    return render_template('audit.html')
+    return render_template('Audit.html')
 
 # Chatbot API Endpoint
 @app.route('/ask', methods=['POST'])
