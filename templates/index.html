@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>Civilytix Guided Tour</title>
+  <!-- Google Fonts for Modern Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <!-- Intro.js CSS -->
@@ -11,44 +13,78 @@
   <style>
     body {
       background-color: #f0f4f9;
-      font-family: Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
+    /* Sidebar Styling */
     .sidebar {
       background-color: #004d66;
       min-height: 100vh;
       color: white;
       padding-top: 20px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     }
     .sidebar a {
       color: #fff;
-      padding: 15px;
+      padding: 20px;
+      font-size: 1.1rem;
       text-decoration: none;
       display: block;
-      transition: background-color 0.3s ease;
+      transition: background-color 0.3s ease, padding 0.2s ease;
     }
     .sidebar a:hover {
-      background-color: #00394d;
+      background-color: #005f73;
+      padding-left: 25px;
     }
+
+    /* Navbar Toggle for Mobile */
+    .navbar-toggler {
+      margin-bottom: 20px;
+    }
+
+    /* Main Content */
     .main-content {
       padding: 40px;
       background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin: 20px 0;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
     }
+
     h1, h2, p {
       color: #004d66;
+      font-weight: 600;
     }
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+    h3 {
+      font-size: 1.75rem;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Highlight Section */
     .highlight {
-      background-color: #e9ecef;
-      padding: 20px;
+      background-color: #eef7fa;
+      padding: 25px;
       margin-top: 20px;
       border-left: 5px solid #007acc;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
     .highlight h2 {
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
+
     .highlight ul {
       margin-top: 15px;
       padding-left: 20px;
@@ -56,13 +92,19 @@
     }
     .highlight ul li {
       margin-bottom: 10px;
+      line-height: 1.5;
     }
+
+    /* Footer Styling */
     footer {
       background-color: #004d66;
       color: white;
-      padding: 30px;
+      padding: 40px;
       text-align: center;
+      position: relative;
       z-index: 999;
+      font-size: 16px;
+      margin-top: auto;
     }
     footer p {
       margin: 0;
@@ -71,31 +113,51 @@
     footer a {
       color: white;
       text-decoration: underline;
+      transition: color 0.3s ease;
     }
+    footer a:hover {
+      color: #00a8e1;
+    }
+
+    /* Button Styling */
     .btn-primary {
-      background-color: #007acc;
+      background: linear-gradient(135deg, #007acc, #00a8e1);
       border: none;
-      padding: 10px 20px;
+      padding: 12px 25px;
       font-size: 16px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
+      border-radius: 30px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 122, 204, 0.3);
     }
     .btn-primary:hover {
       background-color: #005f99;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .main-content {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container-fluid">
     <div class="row">
+      <!-- Toggle button for mobile view -->
+      <button class="navbar-toggler d-md-none" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
       <!-- Sidebar -->
-      <nav class="col-md-2 sidebar">
+      <nav id="sidebarMenu" class="col-md-3 sidebar collapse d-md-block">
         <h4 class="text-center">Civilytix</h4>
-        <a href="index.html" data-intro="This is the home page, where you can get an overview of Civilytix." data-step="1">Home</a>
-        <a href="project.html" data-intro="In Projects, you can manage and predict project costs based on materials and more." data-step="2">Projects</a>
-        <a href="bids.html" data-intro="The Bids section allows you to manage and rank bids using MCDM." data-step="3">Bids</a>
-        <a href="finances.html" data-intro="Track all financial transactions related to your projects here." data-step="4">Finances</a>
-        <a href="audit.html" data-intro="In the Audit Results section, view audit reports and schedule maintenance." data-step="5">Audit Results</a>
+        <a href="/" data-intro="This is the home page, where you can get an overview of Civilytix." data-step="1">Home</a>
+        <a href="project" data-intro="In Projects, you can manage and predict project costs based on materials and more." data-step="2">Projects</a>
+        <a href="bids" data-intro="The Bids section allows you to manage and rank bids using MCDM." data-step="3">Bids</a>
+        <a href="Finances" data-intro="Track all financial transactions related to your projects here." data-step="4">Finances</a>
+        <a href="audit" data-intro="In the Audit Results section, view audit reports and schedule maintenance." data-step="5">Audit Results</a>
         <a href="#" data-intro="Visit this section to access training and resources for Civilytix." data-step="6">Training</a>
       </nav>
 
@@ -105,7 +167,7 @@
         <p>
           Civilytix is a comprehensive platform for managing civil infrastructure projects. To start a tour of the dashboard and its features, click the button below.
         </p>
-        <button class="btn btn-primary" onclick="startTour()">Start Tour</button>
+        <button class="btn btn-primary btn-lg" onclick="startTour()">Start Tour</button>
 
         <!-- Why Civilytix Matters Section -->
         <div class="highlight">
@@ -145,9 +207,54 @@
     </div>
   </div>
 
-  <!-- Placeholder for footer -->
-  <div id="footer-placeholder"></div>
+  <footer>
+    <div class="container" style="color: white;">
+      <div class="row">
+        <!-- About Us Section -->
+        <div class="col-md-4">
+          <h5>About Civilytix</h5>
+          <p style="font-size: 14px; color: white;">
+            Civilytix is a leading platform providing innovative solutions for infrastructure project management, ensuring transparency, efficiency, and sustainability. We empower decision-makers with cutting-edge tools for tendering, project cost prediction, auditing, and financial tracking.
+          </p>
+        </div>
+  
+        <!-- Contact Information -->
+        <div class="col-md-4">
+          <h5>Contact Us</h5>
+          <p style="color: white;"><i class="fas fa-envelope"></i> Email: <a href="mailto:info@civilytix.com" style="color: white;">info@civilytix.com</a></p>
+          <p style="color: white;"><i class="fas fa-phone"></i> Phone: +1 123 456 7890</p>
+          <p style="color: white;"><i class="fas fa-map-marker-alt"></i> Address: 1234 Street Name, City, Country</p>
+        </div>
+  
+        <!-- Social Media Links -->
+        <div class="col-md-4">
+          <h5>Follow Us</h5>
+          <a href="#" style="color: white; margin: 0 10px;">
+            <i class="fab fa-facebook-square fa-2x"></i>
+          </a>
+          <a href="#" style="color: white; margin: 0 10px;">
+            <i class="fab fa-twitter-square fa-2x"></i>
+          </a>
+          <a href="#" style="color: white; margin: 0 10px;">
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+          <a href="#" style="color: white; margin: 0 10px;">
+            <i class="fab fa-instagram-square fa-2x"></i>
+          </a>
+        </div>
+      </div>
+  
+      <!-- Copyright Section -->
+      <div class="row mt-3">
+        <div class="col-12">
+          <p>&copy; 2024 Civilytix. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
+  <!-- Add Font Awesome for Icons -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -155,12 +262,7 @@
   <!-- Intro.js JS -->
   <script src="https://unpkg.com/intro.js/minified/intro.min.js"></script>
 
-  <!-- Footer loading script -->
   <script>
-    $(document).ready(function() {
-      $("#footer-placeholder").load("footer.html");
-    });
-
     function startTour() {
       introJs().start();
     }
